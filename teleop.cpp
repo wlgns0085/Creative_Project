@@ -46,7 +46,8 @@ void print_info()
 {
 
   ROS_INFO("--------------------------------flight information--------------------------------");
-  ROS_INFO("gps        -> lat: [%lf], lon: [%lf], alt: [%lf]", curr_lat, curr_lon, curr_alt);
+  if (curr_lat==500 && curr_lon==500 && curr_alt==500) ROS_INFO("gps        -> lat: [%lf], lon: [%lf], alt: [%lf]    ** GPS not connected **", curr_lat, curr_lon, curr_alt);
+  else ROS_INFO("gps        -> lat: [%lf], lon: [%lf], alt: [%lf]", curr_lat, curr_lon, curr_alt);
   ROS_INFO("Position   -> x: [%lf], y: [%lf], z: [%lf]", pos_x, pos_y, pos_z);
   ROS_INFO("Orientation-> x: [%lf], y: [%lf], z: [%lf], w: [%lf]", ori_x, ori_y, ori_z);
   ROS_INFO("Vel        -> Linear: [%lf], Angular: [%lf]", vel_lin, vel_ang);
@@ -83,14 +84,17 @@ int main(int argc, char **argv)
     ros::Subscriber sub_gps = nh.subscribe("/bebop/fix", 100, gps_callback);
     ros::Subscriber sub_odo = nh.subscribe("/bebop/odom", 100, odo_callback);
 
+    
     while(ros::ok()){
       print_info();
+
       ros::spinOnce();
-      ros::Rate(10).sleep(); 
+      ros::Rate(1).sleep(); 
 
       set_dest_gps();
       move_to_dest();
     }
-  
+
+
     return 0;
 }
