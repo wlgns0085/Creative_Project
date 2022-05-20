@@ -7,7 +7,8 @@ Bebop은 속도기반 제어
 일정 시간동안 publish
 time = velocity / distance
 ### 방법B)
-원하는 위치 및 방향에 일치할 때까지 publish
+원하는 위치 및 방향에 일치할 때까지 publish  
+비행 중 현재 Yaw 확인
 
 ## 북쪽 기준 방위각
 include <sensor_msgs/MagneticField.h> 필요
