@@ -14,6 +14,12 @@ time = velocity / distance
 include <sensor_msgs/MagneticField.h> 필요
 driver 실행시 GPS 연결 가능해야 함
 
+## 경로 메시지  
+경로를 한 번에 전송하지 않고  
+경로 전송 시작, 종료, 전송중을 알리는 데이터와 longitude와 latitude값을 전송  
 
-## todo
-2. 목적지 도착까지 전진
+ex)  
+header header  
+int mode  
+double longitude
+double latitude
