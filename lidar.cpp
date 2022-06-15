@@ -5,7 +5,7 @@
 #include <math.h>
 
 ros::Publisher marker_pub;
-void Pub_point(float distance, int angle);
+void Pub_point(float distance, float angle);
 void Pub_point_zero();
 void Pub_arrow(float angle);
 
@@ -26,7 +26,7 @@ void call_angle(const std_msgs::Int16::ConstPtr data) // 각도
 {
   angle = data->data;
   printf("degree [ %d ] / dist : [ %f ]\n",angle, distance);
-  Pub_point(distance/2,angle * 3.141592 / 180);
+  Pub_point(distance/2,(angle) * 3.141592 / 180);
 
   point_arr[0][arr_index]=distance;
   point_arr[1][arr_index]=angle*1.0;
@@ -48,9 +48,12 @@ int main( int argc, char** argv )
 
     ros::Subscriber sub_distance = n.subscribe("/bebop/distance", 1, call_distance);
     ros::Subscriber sub_angle = n.subscribe("/bebop/angle", 1, call_angle);
-    marker_pub = n.advertise<visualization_msgs::Marker>("/lidar/marker", 10);
+    
+    marker_pub = n.advertise<visualization_msgs::Marker>("/lidar/marker", 1);
   
-    ros::Rate r(120);
+    ros::Rate r(240);
+
+    Pub_point_zero();
 
     while (ros::ok())
     {
@@ -58,12 +61,14 @@ int main( int argc, char** argv )
       
       Pub_point_zero();
       //Pub_arrow(angle);
+      
 
+      r.sleep();
 
     ros::spinOnce();
   }
 }
-void Pub_point(float distance, int angle)
+void Pub_point(float distance, float angle)
 {
     visualization_msgs::Marker points;
 
